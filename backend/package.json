@@ -1,0 +1,21 @@
+{
+  "name": "minilib-backend",
+  "version": "1.0.0",
+  "description": "API REST MiniLib - Node.js / Express",
+  "type": "module",
+  "private" : true,
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node --env-file=.env src/app.js",
+    "dev": "node --watch --env-file=.env src/app.js",
+    "test": "echo \"Tests a venir\""
+  },
+  "keywords": [],
+  "author": "MIRIEL Mathis",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
+  }
+}
