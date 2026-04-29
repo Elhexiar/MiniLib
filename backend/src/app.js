@@ -12,8 +12,7 @@ const PORT = process.env.PORT || 5000;
 // ── Middlewares globaux ───────────────────────────────────────────────
 // cors() : autorise les requêtes cross-origin (React sur port 3000 → API sur 5000)
 app.use(cors());
-// express.json() : parse automatiquement le body JSON des requêtes
-POST / PUT;
+// express.json() : parse automatiquement le body JSON des requêtes POST / PUT;
 app.use(express.json());
 // Middleware de logging minimaliste — affiche chaque requête reçue
 app.use((req, res, next) => {
@@ -22,7 +21,7 @@ app.use((req, res, next) => {
 });
 // ── Routes ───────────────────────────────────────────────────────────
 // Toutes les routes de livres seront préfixées par /api/v1/livres
-app.use("/api/v1/v1/livres", livresRouter);
+app.use("/api/v1/livres", livresRouter);
 // Route de santé — permet de vérifier que le serveur tourne
 app.get("/health", (req, res) => {
   res.json({
