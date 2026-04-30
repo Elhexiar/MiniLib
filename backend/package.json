@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "API REST MiniLib - Node.js / Express",
   "type": "module",
-  "private" : true,
+  "private": true,
   "main": "src/app.js",
   "scripts": {
     "start": "node --env-file=.env src/app.js",
