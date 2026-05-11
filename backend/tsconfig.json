@@ -1,0 +1,15 @@
+{
+  // Visit https://aka.ms/tsconfig to read more about this file
+  "compilerOptions": {
+    "target": "ES2022", // version JS générée
+    "module": "NodeNext", // format de modules (ESM)
+    "moduleResolution": "NodeNext",
+    "outDir": "./dist", // dossier de sortie JS compilé
+    "rootDir": "./src", // dossier source TS
+    "strict": true, // active toutes les vérifications strictes
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"], // inclut tous les fichiers TS du dossier src
+  "exclude": ["node_modules", "dist"]
+}

@@ -6,6 +6,7 @@ import cors from "cors";
 // Node 24 : plus besoin de dotenv // charge les variables depuis .env
 // Import des routeurs (on les créera juste après)
 import livresRouter from "./routes/livres.js";
+import adherentsRouter from "./routes/adherents.js";
 // ── Initialisation de l'application Express ──────────────────────────
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +23,8 @@ app.use((req, res, next) => {
 // ── Routes ───────────────────────────────────────────────────────────
 // Toutes les routes de livres seront préfixées par /api/v1/livres
 app.use("/api/v1/livres", livresRouter);
+// Toutes les routes d'adhérents seront préfixées par /api/v1/adherents
+app.use("/api/v1/adherents", adherentsRouter);
 // Route de santé — permet de vérifier que le serveur tourne
 app.get("/health", (req, res) => {
   res.json({
@@ -40,6 +43,29 @@ app.use((req, res) => {
 // Express reconnaît ce middleware à ses 4 paramètres (err en premier)
 app.use((err, req, res, next) => {
   console.error("Erreur serveur:", err.message);
+
+  if (err.code === "23505") {
+    return res.status(409).json({
+      erreur: "Conflit de donnée",
+      detail: err.detail || "Une valeur unique existe déjà en base",
+    });
+  }
+
+  if (err.code === "23503") {
+    return res.status(409).json({
+      erreur: "Référence invalide",
+      detail:
+        err.detail || "Une clé étrangère ne correspond à aucun enregistrement",
+    });
+  }
+
+  if (err.code === "23514") {
+    return res.status(400).json({
+      erreur: "Donnée invalide",
+      detail: err.detail || "Une contrainte de vérification a échoué",
+    });
+  }
+
   res.status(500).json({ erreur: "Erreur interne du serveur" });
 });
 // ── Démarrage ─────────────────────────────────────────────────────────
