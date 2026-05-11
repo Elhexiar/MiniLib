@@ -7,17 +7,15 @@
  * @module livresModel
  */
 import pool from "../config/database.js";
+
+/** @import { Livre, CreateLivreDto, FiltresLivre } from '../types/index.js' */
+
 /**
-* Récupère tous les livres avec filtres optionnels.
-*
-* @async
-* @param {Object} [filtres={}]
-* @param {string} [filtres.genre]
-* @param {boolean} [filtres.disponible]
-* @param {string} [filtres.recherche] - Recherche dans titre ou auteur
-(ILIKE)
-* @returns {Promise<Array>} Tableau de livres
-*/
+ * Récupère tous les livres avec filtres optionnels.
+ *
+ * @param {FiltresLivre} [filtres={}]
+ * @returns {Promise<Livre[]>}
+ */
 export const findAll = async (filtres = {}) => {
   const conditions = [];
   const valeurs = [];
@@ -28,7 +26,7 @@ export const findAll = async (filtres = {}) => {
   }
   if (filtres.disponible !== undefined) {
     conditions.push(`disponible = $${idx++}`);
-    valeurs.push(filtres.disponible === "true");
+    valeurs.push(filtres.disponible === true);
   }
   if (filtres.recherche) {
     conditions.push(`(titre ILIKE $${idx} OR auteur ILIKE $${idx})`);
@@ -46,7 +44,7 @@ export const findAll = async (filtres = {}) => {
  * Trouve un livre par son id.
  * @async
  * @param {number} id
- * @returns {Promise<Object|null>} Livre ou null
+ * @returns {Promise<Livre|null>} Livre ou null
  */
 export const findById = async (id) => {
   const result = await pool.query("SELECT * FROM livres WHERE id = $1", [id]);
@@ -55,8 +53,8 @@ export const findById = async (id) => {
 /**
  * Crée un nouveau livre.
  * @async
- * @param {Object} data - { isbn, titre, auteur, annee, genre }
- * @returns {Promise<Object>} Le livre créé avec son id
+ * @param {CreateLivreDto} data - { isbn, titre, auteur, annee, genre }
+ * @returns {Promise<Livre>} Le livre créé avec son id
  */
 export const create = async ({ isbn, titre, auteur, annee, genre }) => {
   const result = await pool.query(
@@ -71,8 +69,8 @@ VALUES ($1, $2, $3, $4, $5) RETURNING *`,
  * Met à jour un livre.
  * @async
  * @param {number} id
- * @param {Object} data - Champs à modifier
- * @returns {Promise<Object|null>} Livre mis à jour ou null
+ * @param {Partial<Livre>} data - Champs à modifier
+ * @returns {Promise<Livre|null>} Livre mis à jour ou null
  */
 export const update = async (id, data) => {
   // Construction dynamique du SET
