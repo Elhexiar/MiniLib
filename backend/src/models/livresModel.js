@@ -26,7 +26,7 @@ export const findAll = async (filtres = {}) => {
   }
   if (filtres.disponible !== undefined) {
     conditions.push(`disponible = $${idx++}`);
-    valeurs.push(filtres.disponible === true);
+    valeurs.push(filtres.disponible);
   }
   if (filtres.recherche) {
     conditions.push(`(titre ILIKE $${idx} OR auteur ILIKE $${idx})`);
